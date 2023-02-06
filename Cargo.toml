@@ -6,9 +6,12 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-web = "4.3.0"
 
+[[bin]]
+name = "sanmoku"
+path="src/sanmoku.rs"
 
+actix-web = "4"
 
 
 

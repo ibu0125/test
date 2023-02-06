@@ -66,16 +66,16 @@ fn mark_board(board: &mut [[i32; 3]; 3],turn: i32) {
 
     while j==false {
         println!("横の座標は何ですか？");
-        position_hori=get_input_int();
+        position_hori =get_input_int();
         println!("縦の座標は何ですか？");
-        position_ver=get_input_int();
+        position_ver =get_input_int();
         if position_ver>=0 && position_ver<=3 && position_hori>=0 && position_hori<=3{
             j=true;
         }else{
             println!("範囲外です");
         }
     }
-    *&mut board[position_hori][position_ver]= if turn==1 {1} else {-1}
+    *board[position_hori as u32][position_ver]= if turn==1 {1} else {-1}
 }
 
 // fn input(text: &str) -> String {
