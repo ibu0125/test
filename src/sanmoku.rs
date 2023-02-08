@@ -1,5 +1,7 @@
 #![allow(dead_code)] 
-use std::io;
+use std::{io, fs::read};
+use std::io::*;
+use std::str::FromStr;
 
 struct Playdata {
     num_play: i32,  //対戦数 
@@ -43,11 +45,23 @@ fn get_input() -> String {
     return name.trim().to_string();
 }
 
-fn get_input_int() -> u32{
-    let mut num = String::new();
-    io::stdin().read_line(&mut num).ok();
-    return num.trim().parse().ok().unwrap();
+fn read<T: FromStr>() -> T {
+    let stdin = stdin();
+    let stdin = stdin.lock();
+    let token: String = stdin
+        .bytes()
+        .map(|c| c.expect("failed to read char") as char) 
+        .skip_while(|c| c.is_whitespace())
+        .take_while(|c| !c.is_whitespace())
+        .collect();
+    token.parse().ok().expect("failed to parse token")
 }
+
+// fn get_input_int() -> T{
+//     let mut num = String::new();
+//     io::stdin().read_line(&mut num).ok();
+//     return num.trim().parse().ok().unwrap();
+// }
 
 fn print_board(board: &mut [[i32; 3]; 3]) {
     for j in 0..3{
@@ -60,22 +74,22 @@ fn print_board(board: &mut [[i32; 3]; 3]) {
 }
 
 fn mark_board(board: &mut [[i32; 3]; 3],turn: i32) {
-    let mut position_ver: u32;
-    let mut position_hori: u32;
+    let mut position_ver: usize;
+    let mut position_hori: usize;
     let mut j=false;
 
     while j==false {
         println!("横の座標は何ですか？");
-        position_hori =get_input_int();
+        position_hori =read();
         println!("縦の座標は何ですか？");
-        position_ver =get_input_int();
+        position_ver =read();
         if position_ver>=0 && position_ver<=3 && position_hori>=0 && position_hori<=3{
             j=true;
         }else{
             println!("範囲外です");
         }
     }
-    *board[position_hori as u32][position_ver]= if turn==1 {1} else {-1}
+    *board[*position_hori as usize][*position_ver as usize]= if turn==1 {1} else {-1}
 }
 
 // fn input(text: &str) -> String {
